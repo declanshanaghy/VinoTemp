@@ -1,6 +1,9 @@
 #include <Bounce2.h>
+#include <EEPROM.h>
 
-#define CTRL1 A5
+#define ON LOW
+#define OFF HIGH
+
 #define P1A 2
 #define P1B 3
 #define P1C 4
@@ -9,7 +12,6 @@
 #define P1F 7
 #define P1G 8
 
-#define CTRL2 A4
 #define P2A 9
 #define P2B 10
 #define P2C 11
@@ -18,27 +20,58 @@
 #define P2F A0
 #define P2G A1
 
-#define ON LOW
-#define OFF HIGH
-
 #define BTN_UP A2
 #define BTN_DN A3
+
+#define P_TEMP A4
+#define P_COMPRESSOR A5
 
 #define MAX_SET 70
 #define MIN_SET 30
 
+//Temperature set window
+#define TEMP_WINDOW 4
+
 #define BOUNCE_DELAY 5
+#define SETTING_DP_PERIOD 1000
+#define SETTING_FLASH 1000
+#define SETTING_FLASH_OFF_PERIOD 0.25
+#define SETTING_TIMEOUT 5000
+
+#define TEMP_COUNT 50
+#define TEMP_INTERVAL 100
+
+//Long term storage for variables
+#define EEPROM_TEMP 0
 
 // Instantiate a Bounce object
 Bounce btnUp = Bounce(); 
 Bounce btnDn = Bounce(); 
 
-int temp = 50;
+int tRead = 0;
+int tSet = 0;
+
+bool bSetting = false;
+long tSetting = 0;
+bool bHolding = false;
+long tHolding = 0;
+
+short iTemp = 0;
+float rTemp = 0;
+long tTemp = 0;
 
 void setup() {
   Serial.begin(9600);
-  
-  pinMode(CTRL1, OUTPUT);
+  initPins();
+  initState();
+  loadData();
+
+  rTemp = analogRead(P_TEMP);  
+  convertVtoTemp(rTemp);
+  displayTemp(tRead);    
+}
+
+void initPins() {
   pinMode(P1A, OUTPUT);
   pinMode(P1B, OUTPUT);
   pinMode(P1C, OUTPUT);
@@ -47,7 +80,6 @@ void setup() {
   pinMode(P1F, OUTPUT);
   pinMode(P1G, OUTPUT);
 
-  pinMode(CTRL2, OUTPUT);
   pinMode(P2A, OUTPUT);
   pinMode(P2B, OUTPUT);
   pinMode(P2C, OUTPUT);
@@ -56,8 +88,7 @@ void setup() {
   pinMode(P2F, OUTPUT);
   pinMode(P2G, OUTPUT);
 
-  off1();
-  off2();
+  pinMode(P_COMPRESSOR, OUTPUT);
 
   // Setup the button with an internal pull-up :
   pinMode(BTN_UP, INPUT_PULLUP);
@@ -67,60 +98,163 @@ void setup() {
   // Setup the button with an internal pull-up :
   pinMode(BTN_DN, INPUT_PULLUP);
   btnDn.attach(BTN_DN);
-  btnDn.interval(BOUNCE_DELAY);
+  btnDn.interval(BOUNCE_DELAY);  
+}
 
-  displayTemp();
+void initState() {
+  bSetting = false;
+  digitalWrite(P_COMPRESSOR, LOW);
+  off1();
+  off2();  
+}
+
+void loadData() {
+  //Read the set temp from memory
+  tSet = EEPROM.read(EEPROM_TEMP);
+  if (tSet == 255) {
+    tSet = 50;
+    EEPROM.write(EEPROM_TEMP, tSet); 
+  }  
 }
 
 void loop() {
-  checkButtons();
+  long m = millis();
+  btnUp.update();
+  btnDn.update();  
+  
+  if ( bSetting && (m - tSetting > SETTING_TIMEOUT)) {    
+    Serial.println("RESET");
+    bSetting = false;   
+    //Write the set temp to memory
+    EEPROM.write(EEPROM_TEMP, tSet);
+    displayTemp(tRead);
+  }
+
+  if ( bSetting ) {
+    if ( checkAdjustment() )
+      tSetting = m;
+      
+    if ( (m - tSetting) % SETTING_FLASH < SETTING_FLASH * SETTING_FLASH_OFF_PERIOD ) {
+      off1();
+      off2();
+    }
+    else {
+      displayTemp(tSet);    
+    }
+  }
+  else {
+    //checkSinglePress();
+    checkDoublePress();  
+    if ( readTemp() ) {
+      convertVtoTemp(rTemp);
+      displayTemp(tRead);
+    }
+  }
+
+  if (tRead >= tSet + TEMP_WINDOW)
+    digitalWrite(P_COMPRESSOR, HIGH);
+
+  if (tRead <= tSet)
+    digitalWrite(P_COMPRESSOR, LOW);
 }
 
-void checkButtons() {
-  btnUp.update();
-  btnDn.update();
+boolean readTemp() {
+  long m = millis();
+  if ( millis() - tTemp > TEMP_INTERVAL) {
+      iTemp++;
+      rTemp += analogRead(P_TEMP);  
+      tTemp = m;
+//      Serial.print("rTemp1: ");
+//      Serial.println(rTemp);
+  }
 
+  if ( iTemp >= TEMP_COUNT ) {
+    rTemp /= TEMP_COUNT;
+    return true;
+  }
+
+  return false;
+}
+
+void convertVtoTemp(int a) {
+//  Serial.print("rTemp: ");
+//  Serial.println(rTemp);
+    
+  //Map analog reading to voltage (5/1023)
+  float v = 5 - (a * 0.00488758553275);
+//  Serial.print("v2: ");
+//  Serial.println(v);
+  
+  //Map voltage to temp using line formula 
+  //calculated from TempMapping.xlsx
+  
+  //Factory Board (5.1k resistor)
+  //x = (-y + 4.5635) / 0.027647
+  //tRead =  (-v + 4.5635) / 0.027647;
+  
+  //My Board (5.5k resistor)  
+  //x = (y - b) / m
+  float m = -0.02;
+  float b = 4.11;  
+  tRead = (v - b) / m;
+      
+//  Serial.print("tRead: ");
+//  Serial.println(tRead);
+//  Serial.println("");
+
+  rTemp = 0;
+  iTemp = 0;
+}
+
+void checkSinglePress() {
+  if ( btnUp.fell() || btnDn.fell() ) {
+    bSetting = true;    
+    tSetting = millis();   
+  }
+}
+
+void checkDoublePress() {    
+  bool uLow = btnUp.read() == LOW;
+  int dLow = btnDn.read() == LOW;
+  
+  if ( !bHolding && uLow && dLow ) {
+    Serial.println("STARTED HOLDING");
+    bHolding = true;
+    tHolding = millis();
+  }
+
+  if ( bHolding && uLow && dLow && (millis() - tHolding > SETTING_DP_PERIOD)) {
+    Serial.println("STARTED SETTING");
+    bHolding = false;
+    bSetting = true;    
+    tSetting = millis();   
+  }
+}
+
+bool checkAdjustment() {
   if ( btnUp.fell() ) {
-    if ( temp >= MAX_SET ) {
-      temp = MIN_SET;
-      //tempLimitExceeded();
-    }
+    Serial.println("UP");
+    if ( tSet >= MAX_SET )
+      tSet = MIN_SET;
     else
-      temp++;
+      tSet++;
   }
   if ( btnDn.fell() ) {
-    if ( temp <= MIN_SET ) {
-      temp = MAX_SET;
-      //tempLimitExceeded();
-    }
+    Serial.println("DOWN");
+    if ( tSet <= MIN_SET )
+      tSet = MAX_SET;
     else
-      temp--;
+      tSet--;
   }
 
-  if ( btnUp.fell() || btnDn.fell() ) {
-    displayTemp();
-  }
+  return btnUp.fell() || btnDn.fell();
 }
 
-void tempLimitExceeded() {
-  e1();
-  e2();
-  delay(2000);
-}
-
-void displayTemp() {
-  Serial.print("temp: ");
-  Serial.println(temp);
-  
+void displayTemp(int temp) {
   int tens = temp / 10;
   displayTens(tens);
-  Serial.print("tens: ");
-  Serial.println(tens);
-  
   int ones = temp % 10;
   displayOnes(ones);
-  Serial.print("ones: ");
-  Serial.println(ones);
 }
 
 void displayTens(int v) {
@@ -197,42 +331,6 @@ void displayOnes(int v) {
       e2();
       break;
   }
-}
-void count() {
-  int speed = 250;
-  e1();
-  e2();
-  delay(speed);  
-  zeroten();
-  zeroone();
-  delay(speed);  
-  ten();
-  one();
-  delay(speed);  
-  twenty();
-  two();
-  delay(speed);  
-  thirty();
-  three();
-  delay(speed);  
-  forty();
-  four();
-  delay(speed);  
-  fifty();
-  five();
-  delay(speed);  
-  sixty();
-  six();
-  delay(speed);  
-  seventy();
-  seven();
-  delay(speed);  
-  eighty();
-  eight();
-  delay(speed);  
-  ninety();
-  nine();
-  delay(speed);  
 }
 
 void zeroten() {
