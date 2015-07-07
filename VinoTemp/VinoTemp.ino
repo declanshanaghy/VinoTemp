@@ -151,10 +151,10 @@ void loop() {
     }
   }
 
-  if (tRead >= tSet + TEMP_WINDOW)
+  if ((tRead >= tSet + TEMP_WINDOW) && digitalRead(P_COMPRESSOR) == LOW)
     digitalWrite(P_COMPRESSOR, HIGH);
 
-  if (tRead <= tSet)
+  if (tRead <= tSet && digitalRead(P_COMPRESSOR) == HIGH)
     digitalWrite(P_COMPRESSOR, LOW);
 }
 

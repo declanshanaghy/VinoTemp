@@ -1,0 +1,35 @@
+[Eagle]
+Version="07 03 00"
+Platform="Mac OS X"
+Serial="731BFB660A-LSR-WLM-1SS"
+Globals="Globals"
+Desktop="Desktop"
+
+[Globals]
+AutoSaveProject=1
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/GeekAmmo.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/LilyPad-Wearables.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-Aesthetics.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-AnalogIC.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-Boards.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-Capacitors.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-Connectors.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-DigitalIC.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-DiscreteSemi.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-Displays.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-Electromechanical.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-FreqCtrl.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-LED.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-Passives.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-PowerIC.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-RF.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-Resistors.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-Retired.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/SparkFun-Sensors.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/SparkFun-Eagle-Libraries/User-Submitted.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/Adafruit-Eagle-Library/adafruit.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/dek-eagle-lbr/Dek.lbr"
+UsedLibrary="/Users/dshanaghy/Dropbox/Projects/EagleLibraries/display-kingbright.lbr"
+
+[Desktop]
+Screen="4000 1600"
