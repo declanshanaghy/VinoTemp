@@ -3,6 +3,7 @@
 
 #define ON LOW
 #define OFF HIGH
+#define UPSIDE_DOWN true
 
 #define P1A 2
 #define P1B 3
@@ -20,8 +21,8 @@
 #define P2F A0
 #define P2G A1
 
-#define BTN_UP A2
-#define BTN_DN A3
+#define BTN_UP A3
+#define BTN_DN A2
 
 #define P_TEMP A4
 #define P_COMPRESSOR A5
@@ -66,9 +67,65 @@ void setup() {
   initState();
   loadData();
 
+  displayCount();
+
   rTemp = analogRead(P_TEMP);  
   convertVtoTemp(rTemp);
   displayTemp(tRead);    
+}
+
+void displayCount() {
+  off1();
+  off2();
+  delay(250);
+  
+  off1();
+  zeroone();
+  delay(250);
+  
+  zeroten();
+  one();
+  delay(250);
+  
+  ten();
+  two();
+  delay(250);
+  
+  twenty();
+  three();
+  delay(250);
+  
+  thirty();
+  four();
+  delay(250);
+  
+  forty();
+  five();
+  delay(250);
+  
+  fifty();
+  six();
+  delay(250);
+  
+  sixty();
+  seven();
+  delay(250);
+  
+  seventy();
+  eight();
+  delay(250);
+  
+  eighty();
+  nine();
+  delay(250);
+
+  ninety();
+  off2();
+  delay(250);
+  
+  off1();
+  off2();
+  delay(250);
 }
 
 void initPins() {
@@ -334,242 +391,506 @@ void displayOnes(int v) {
 }
 
 void zeroten() {
-  digitalWrite(P1A, ON);
-  digitalWrite(P1B, ON);
-  digitalWrite(P1C, ON);
-  digitalWrite(P1D, ON);
-  digitalWrite(P1E, ON);
-  digitalWrite(P1F, ON);
-  digitalWrite(P1G, OFF);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, ON);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, ON);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, OFF);
+  }
+  else {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, ON);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, ON);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, OFF);    
+  }
 }
 
 void zeroone() {
-  digitalWrite(P2A, ON);
-  digitalWrite(P2B, ON);
-  digitalWrite(P2C, ON);
-  digitalWrite(P2D, ON);
-  digitalWrite(P2E, ON);
-  digitalWrite(P2F, ON);
-  digitalWrite(P2G, OFF);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, ON);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, ON);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, OFF);    
+  }
+  else {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, ON);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, ON);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, OFF);
+  }
 }
 
 void ten() {
-  digitalWrite(P1A, OFF);
-  digitalWrite(P1B, ON);
-  digitalWrite(P1C, ON);
-  digitalWrite(P1D, OFF);
-  digitalWrite(P1E, OFF);
-  digitalWrite(P1F, OFF);
-  digitalWrite(P1G, OFF);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P2A, OFF);
+    digitalWrite(P2B, OFF);
+    digitalWrite(P2C, OFF);
+    digitalWrite(P2D, OFF);
+    digitalWrite(P2E, ON);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, OFF);    
+  }
+  else {
+    digitalWrite(P1A, OFF);
+    digitalWrite(P1B, ON);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, OFF);
+    digitalWrite(P1E, OFF);
+    digitalWrite(P1F, OFF);
+    digitalWrite(P1G, OFF);    
+  }
 }
 
 void one() {
-  digitalWrite(P2A, OFF);
-  digitalWrite(P2B, ON);
-  digitalWrite(P2C, ON);
-  digitalWrite(P2D, OFF);
-  digitalWrite(P2E, OFF);
-  digitalWrite(P2F, OFF);
-  digitalWrite(P2G, OFF);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P1A, OFF);
+    digitalWrite(P1B, OFF);
+    digitalWrite(P1C, OFF);
+    digitalWrite(P1D, OFF);
+    digitalWrite(P1E, ON);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, OFF);    
+  }
+  else {
+    digitalWrite(P2A, OFF);
+    digitalWrite(P2B, ON);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, OFF);
+    digitalWrite(P2E, OFF);
+    digitalWrite(P2F, OFF);
+    digitalWrite(P2G, OFF);
+  }
 }
 
 void twenty() {
-  digitalWrite(P1A, ON);
-  digitalWrite(P1B, ON);
-  digitalWrite(P1C, OFF);
-  digitalWrite(P1D, ON);
-  digitalWrite(P1E, ON);
-  digitalWrite(P1F, OFF);
-  digitalWrite(P1G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, ON);
+    digitalWrite(P2C, OFF);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, ON);
+    digitalWrite(P2F, OFF);
+    digitalWrite(P2G, ON);
+  }
+  else {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, ON);
+    digitalWrite(P1C, OFF);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, ON);
+    digitalWrite(P1F, OFF);
+    digitalWrite(P1G, ON);
+  }
 }
 
 void two() {
-  digitalWrite(P2A, ON);
-  digitalWrite(P2B, ON);
-  digitalWrite(P2C, OFF);
-  digitalWrite(P2D, ON);
-  digitalWrite(P2E, ON);
-  digitalWrite(P2F, OFF);
-  digitalWrite(P2G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, ON);
+    digitalWrite(P1C, OFF);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, ON);
+    digitalWrite(P1F, OFF);
+    digitalWrite(P1G, ON);    
+  }
+  else {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, ON);
+    digitalWrite(P2C, OFF);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, ON);
+    digitalWrite(P2F, OFF);
+    digitalWrite(P2G, ON);
+  }
 }
 
 void thirty() {
-  digitalWrite(P1A, ON);
-  digitalWrite(P1B, ON);
-  digitalWrite(P1C, ON);
-  digitalWrite(P1D, ON);
-  digitalWrite(P1E, OFF);
-  digitalWrite(P1F, OFF);
-  digitalWrite(P1G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, OFF);
+    digitalWrite(P2C, OFF);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, ON);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, ON);    
+  }
+  else {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, ON);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, OFF);
+    digitalWrite(P1F, OFF);
+    digitalWrite(P1G, ON);
+  }
 }
 
 void three() {
-  digitalWrite(P2A, ON);
-  digitalWrite(P2B, ON);
-  digitalWrite(P2C, ON);
-  digitalWrite(P2D, ON);
-  digitalWrite(P2E, OFF);
-  digitalWrite(P2F, OFF);
-  digitalWrite(P2G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, OFF);
+    digitalWrite(P1C, OFF);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, ON);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, ON);    
+  }
+  else {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, ON);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, OFF);
+    digitalWrite(P2F, OFF);
+    digitalWrite(P2G, ON);
+  }
 }
 
 void forty() {
-  digitalWrite(P1A, OFF);
-  digitalWrite(P1B, ON);
-  digitalWrite(P1C, ON);
-  digitalWrite(P1D, OFF);
-  digitalWrite(P1E, OFF);
-  digitalWrite(P1F, ON);
-  digitalWrite(P1G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P2A, OFF);
+    digitalWrite(P2B, OFF);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, OFF);
+    digitalWrite(P2E, ON);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, ON);    
+  }
+  else {
+    digitalWrite(P1A, OFF);
+    digitalWrite(P1B, ON);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, OFF);
+    digitalWrite(P1E, OFF);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, ON);
+  }
 }
 
 void four() {
-  digitalWrite(P2A, OFF);
-  digitalWrite(P2B, ON);
-  digitalWrite(P2C, ON);
-  digitalWrite(P2D, OFF);
-  digitalWrite(P2E, OFF);
-  digitalWrite(P2F, ON);
-  digitalWrite(P2G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P1A, OFF);
+    digitalWrite(P1B, OFF);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, OFF);
+    digitalWrite(P1E, ON);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, ON);    
+  }
+  else {
+    digitalWrite(P2A, OFF);
+    digitalWrite(P2B, ON);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, OFF);
+    digitalWrite(P2E, OFF);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, ON);
+  }
 }
 
 void fifty() {
-  digitalWrite(P1A, ON);
-  digitalWrite(P1B, OFF);
-  digitalWrite(P1C, ON);
-  digitalWrite(P1D, ON);
-  digitalWrite(P1E, OFF);
-  digitalWrite(P1F, ON);
-  digitalWrite(P1G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, OFF);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, OFF);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, ON);    
+  }
+  else {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, OFF);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, OFF);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, ON);   
+  }
 }
 
 void five() {
-  digitalWrite(P2A, ON);
-  digitalWrite(P2B, OFF);
-  digitalWrite(P2C, ON);
-  digitalWrite(P2D, ON);
-  digitalWrite(P2E, OFF);
-  digitalWrite(P2F, ON);
-  digitalWrite(P2G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, OFF);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, OFF);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, ON);    
+  }
+  else {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, OFF);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, OFF);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, ON);
+  }
 }
 
 void sixty() {
-  digitalWrite(P1A, OFF);
-  digitalWrite(P1B, OFF);
-  digitalWrite(P1C, ON);
-  digitalWrite(P1D, ON);
-  digitalWrite(P1E, ON);
-  digitalWrite(P1F, ON);
-  digitalWrite(P1G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, ON);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, OFF);
+    digitalWrite(P2E, OFF);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, ON);    
+  }
+  else {
+    digitalWrite(P1A, OFF);
+    digitalWrite(P1B, OFF);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, ON);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, ON);
+  }
 }
 
 void six() {
-  digitalWrite(P2A, OFF);
-  digitalWrite(P2B, OFF);
-  digitalWrite(P2C, ON);
-  digitalWrite(P2D, ON);
-  digitalWrite(P2E, ON);
-  digitalWrite(P2F, ON);
-  digitalWrite(P2G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, ON);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, OFF);
+    digitalWrite(P1E, OFF);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, ON);    
+  }
+  else {
+    digitalWrite(P2A, OFF);
+    digitalWrite(P2B, OFF);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, ON);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, ON);
+  }
 }
 
 void seventy() {
-  digitalWrite(P1A, ON);
-  digitalWrite(P1B, ON);
-  digitalWrite(P1C, ON);
-  digitalWrite(P1D, OFF);
-  digitalWrite(P1E, OFF);
-  digitalWrite(P1F, OFF);
-  digitalWrite(P1G, OFF);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P2A, OFF);
+    digitalWrite(P2B, OFF);
+    digitalWrite(P2C, OFF);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, ON);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, OFF);    
+  }
+  else {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, ON);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, OFF);
+    digitalWrite(P1E, OFF);
+    digitalWrite(P1F, OFF);
+    digitalWrite(P1G, OFF);
+  }
 }
 
 void seven() {
-  digitalWrite(P2A, ON);
-  digitalWrite(P2B, ON);
-  digitalWrite(P2C, ON);
-  digitalWrite(P2D, OFF);
-  digitalWrite(P2E, OFF);
-  digitalWrite(P2F, OFF);
-  digitalWrite(P2G, OFF);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P1A, OFF);
+    digitalWrite(P1B, OFF);
+    digitalWrite(P1C, OFF);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, ON);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, OFF);    
+  }
+  else {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, ON);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, OFF);
+    digitalWrite(P2E, OFF);
+    digitalWrite(P2F, OFF);
+    digitalWrite(P2G, OFF);
+  }
 }
 
 void eighty() {
-  digitalWrite(P1A, ON);
-  digitalWrite(P1B, ON);
-  digitalWrite(P1C, ON);
-  digitalWrite(P1D, ON);
-  digitalWrite(P1E, ON);
-  digitalWrite(P1F, ON);
-  digitalWrite(P1G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, ON);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, ON);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, ON);    
+  }
+  else {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, ON);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, ON);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, ON);   
+  }
 }
 
 void eight() {
-  digitalWrite(P2A, ON);
-  digitalWrite(P2B, ON);
-  digitalWrite(P2C, ON);
-  digitalWrite(P2D, ON);
-  digitalWrite(P2E, ON);
-  digitalWrite(P2F, ON);
-  digitalWrite(P2G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, ON);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, ON);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, ON);    
+  }
+  else {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, ON);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, ON);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, ON);
+  }
 }
 
 void ninety() {
-  digitalWrite(P1A, ON);
-  digitalWrite(P1B, ON);
-  digitalWrite(P1C, ON);
-  digitalWrite(P1D, OFF);
-  digitalWrite(P1E, OFF);
-  digitalWrite(P1F, ON);
-  digitalWrite(P1G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P2A, OFF);
+    digitalWrite(P2B, OFF);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, ON);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, ON);    
+  }
+  else {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, ON);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, OFF);
+    digitalWrite(P1E, OFF);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, ON);    
+  }
 }
 
 void nine() {
-  digitalWrite(P2A, ON);
-  digitalWrite(P2B, ON);
-  digitalWrite(P2C, ON);
-  digitalWrite(P2D, OFF);
-  digitalWrite(P2E, OFF);
-  digitalWrite(P2F, ON);
-  digitalWrite(P2G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P1A, OFF);
+    digitalWrite(P1B, OFF);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, ON);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, ON);    
+  }
+  else {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, ON);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, OFF);
+    digitalWrite(P2E, OFF);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, ON);   
+  }
 }
 
 void e1() {
-  digitalWrite(P1A, ON);
-  digitalWrite(P1B, OFF);
-  digitalWrite(P1C, OFF);
-  digitalWrite(P1D, ON);
-  digitalWrite(P1E, ON);
-  digitalWrite(P1F, ON);
-  digitalWrite(P1G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, ON);
+    digitalWrite(P2C, ON);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, OFF);
+    digitalWrite(P2F, OFF);
+    digitalWrite(P2G, ON);    
+  }
+  else {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, OFF);
+    digitalWrite(P1C, OFF);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, ON);
+    digitalWrite(P1F, ON);
+    digitalWrite(P1G, ON);
+  }
 }
 
 void off1() {
-  digitalWrite(P1A, OFF);
-  digitalWrite(P1B, OFF);
-  digitalWrite(P1C, OFF);
-  digitalWrite(P1D, OFF);
-  digitalWrite(P1E, OFF);
-  digitalWrite(P1F, OFF);
-  digitalWrite(P1G, OFF);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P2A, OFF);
+    digitalWrite(P2B, OFF);
+    digitalWrite(P2C, OFF);
+    digitalWrite(P2D, OFF);
+    digitalWrite(P2E, OFF);
+    digitalWrite(P2F, OFF);
+    digitalWrite(P2G, OFF);
+  }
+  else {
+    digitalWrite(P1A, OFF);
+    digitalWrite(P1B, OFF);
+    digitalWrite(P1C, OFF);
+    digitalWrite(P1D, OFF);
+    digitalWrite(P1E, OFF);
+    digitalWrite(P1F, OFF);
+    digitalWrite(P1G, OFF);
+  }
 }
 
 void e2() {
-  digitalWrite(P2A, ON);
-  digitalWrite(P2B, OFF);
-  digitalWrite(P2C, OFF);
-  digitalWrite(P2D, ON);
-  digitalWrite(P2E, ON);
-  digitalWrite(P2F, ON);
-  digitalWrite(P2G, ON);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P1A, ON);
+    digitalWrite(P1B, ON);
+    digitalWrite(P1C, ON);
+    digitalWrite(P1D, ON);
+    digitalWrite(P1E, OFF);
+    digitalWrite(P1F, OFF);
+    digitalWrite(P1G, ON);    
+  }
+  else {
+    digitalWrite(P2A, ON);
+    digitalWrite(P2B, OFF);
+    digitalWrite(P2C, OFF);
+    digitalWrite(P2D, ON);
+    digitalWrite(P2E, ON);
+    digitalWrite(P2F, ON);
+    digitalWrite(P2G, ON);
+  }
 }
 
 void off2() {
-  digitalWrite(P2A, OFF);
-  digitalWrite(P2B, OFF);
-  digitalWrite(P2C, OFF);
-  digitalWrite(P2D, OFF);
-  digitalWrite(P2E, OFF);
-  digitalWrite(P2F, OFF);
-  digitalWrite(P2G, OFF);
+  if ( UPSIDE_DOWN ) {
+    digitalWrite(P1A, OFF);
+    digitalWrite(P1B, OFF);
+    digitalWrite(P1C, OFF);
+    digitalWrite(P1D, OFF);
+    digitalWrite(P1E, OFF);
+    digitalWrite(P1F, OFF);
+    digitalWrite(P1G, OFF);
+  }
+  else {
+    digitalWrite(P2A, OFF);
+    digitalWrite(P2B, OFF);
+    digitalWrite(P2C, OFF);
+    digitalWrite(P2D, OFF);
+    digitalWrite(P2E, OFF);
+    digitalWrite(P2F, OFF);
+    digitalWrite(P2G, OFF);
+  }
 }
 
