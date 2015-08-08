@@ -3,7 +3,7 @@
 
 #define ON LOW
 #define OFF HIGH
-#define UPSIDE_DOWN true
+#define UPSIDE_DOWN false
 
 #define P1A 2
 #define P1B 3
